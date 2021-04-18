@@ -1,7 +1,6 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from random import choice
-from time import sleep
-from utils import find_empty_cell, valid_row, valid_column, valid_box, solve
+from threads import Timer, signal_emitter
 from patterns import *
 
 empty_grid, grid = choice([
@@ -106,7 +105,7 @@ class Ui_Sudoku(QtWidgets.QMainWindow):
         self.auto_solve.setFont(font)
         self.auto_solve.setStyleSheet("background-color: rgb(209, 207, 255);\n")
         self.auto_solve.setObjectName("auto_solve")
-        self.auto_solve.clicked.connect(self.solve_grid)
+        self.auto_solve.clicked.connect(self.show_hide_solution)
 
         self.timer = QtWidgets.QLabel(self.info)
         self.timer.setGeometry(QtCore.QRect(30, 90, 60, 28))
@@ -125,7 +124,7 @@ class Ui_Sudoku(QtWidgets.QMainWindow):
         self.solve_animation.clicked.connect(self.solve_grid_visual)
         Sudoku.setCentralWidget(self.centralwidget)
 
-        self.logger = Logger()
+        self.logger = Timer()
         self.logger.sec_signal.connect(self.timer.setText)
         self.logger.start()
 
@@ -138,7 +137,7 @@ class Ui_Sudoku(QtWidgets.QMainWindow):
         Sudoku.setWindowTitle(_translate("Sudoku", "Sudoku"))
         self.wrong_moves_label.setText(_translate("Sudoku", "Wrong Moves:"))
         self.wrong_moves_count.setText(_translate("Sudoku", "0"))
-        self.auto_solve.setText(_translate("Sudoku", "Show/Hide solution"))
+        self.auto_solve.setText(_translate("Sudoku", "Show solution"))
         self.timer.setText(_translate("Sudoku", "00:00"))
         self.solve_animation.setText(_translate("Sudoku", "Play solving animation"))
 
@@ -175,13 +174,17 @@ class Ui_Sudoku(QtWidgets.QMainWindow):
                 else:
                 	self.field[row][col].setText("")
 
-    def solve_grid(self):
+    def show_hide_solution(self):
         if self.solution_state:
             self.show_unsolved_grid()
+            self.auto_solve.setText("Show solution")
         else:
             for row, col in self.empty_fields:
                 self.field[row][col].setText(str(grid[row][col]))
+            self.auto_solve.setText("Hide solution")
         self.solution_state = not self.solution_state
+        self.logger.toggle_timer()
+
 
     def solve_grid_visual(self):
         for row, col in self.empty_fields:
@@ -199,63 +202,9 @@ class Ui_Sudoku(QtWidgets.QMainWindow):
     def animation_complete(self):
     	self.auto_solve.setEnabled(True)
     	self.solve_animation.setEnabled(True)
+    	self.solution_state = 1
+    	self.auto_solve.setText("Hide solution")
     
-    def closeEvent(self, event):
-        self.thread.terminate()
-        print("Closed")
-
-class Logger(QtCore.QThread):
-    sec_signal = QtCore.pyqtSignal(str)
-    def __init__(self, parent=None):
-        super(Logger, self).__init__(parent)
-        self.current_time = 0
-        self.go = True
-    def run(self):
-        #this is a special fxn that's called with the start() fxn
-        while self.go:
-            sleep(1)
-            self.sec_signal.emit('{:02}:{:02}'.format(self.current_time//60, int(self.current_time%60)))
-            self.current_time += 1
-
-    def toggle_timer(self):
-    	self.go = not self.go
-            
-class signal_emitter(QtCore.QObject):
-    answer_signal = QtCore.pyqtSignal(int, int, str, str)
-    finished = QtCore.pyqtSignal()
-
-    @QtCore.pyqtSlot(list, int, int, result=bool)
-    def solve(self, grid, row, column):
-        row, column = find_empty_cell(grid, row)
-
-        # this is the bae case for recursion
-        # if there are no more empty cells
-        if (row, column) == (None,None):
-            self.finished.emit()
-            return True
-
-        # recursively try each number between 0-9 for the empty cell currently soolving
-        for num in range(1, 10):
-
-            # validate if the number trying will satisfy the restirections of soduko
-            if valid_row(grid[row], num
-                ) and valid_column(grid, column, num
-                ) and valid_box(grid, row, column, num):
-                grid[row][column] = num     
-                self.answer_signal.emit(row, column, str(num), """color: rgb(170, 170, 255);
-										border: 1px solid black;""")
-                sleep(0.01)
-
-                if self.solve(grid, row, column):
-                    return True
- 
-                grid[row][column] = 0
-                self.answer_signal.emit(row, column, "0", """color: rgb(255, 0, 0);
-										border: 2px solid rgb(255, 0, 0);""")
-                sleep(0.01)
-        
-        return False
-
 
 if __name__ == "__main__":
     import sys
@@ -264,9 +213,14 @@ if __name__ == "__main__":
     ui = Ui_Sudoku()
     ui.setupUi(Sudoku)
     Sudoku.show()
-    sys.exit(app.exec_())
+    code = app.exec_()
+    ui.thread.terminate()
+    sys.exit(code)
 
 
 #########STUFF TO DO###############
 # figure out the problem with closeEvent
 # add more grids
+# add stting menu
+# add start/pause timer
+# solve animation speed contoller 
