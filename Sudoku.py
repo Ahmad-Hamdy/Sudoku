@@ -1,7 +1,8 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from random import choice
-from threads import Timer, signal_emitter
+from threads import Timer, signal_emitter, delay_handler
 from patterns import *
+from UI_components import render_grid, render_footer, render_menu
 
 empty_grid, grid = choice([
 						(default_pattern, default_solution),
@@ -20,12 +21,14 @@ class Ui_Sudoku(QtWidgets.QMainWindow):
         self.wrong_moves = 0
         self.edited_fields = list()
         self.solution_state = 0
+        self.menu_opened = 0
+        self.delay_handler = delay_handler
 
     def setupUi(self, Sudoku):
         Sudoku.setObjectName("Sudoku")
-        Sudoku.resize(540, 680)
-        Sudoku.setMinimumSize(QtCore.QSize(540, 680))
-        Sudoku.setMaximumSize(QtCore.QSize(540, 680))
+        Sudoku.resize(590, 630)
+        Sudoku.setMinimumSize(QtCore.QSize(590, 630))
+        Sudoku.setMaximumSize(QtCore.QSize(590, 630))
         Sudoku.setWindowIcon(QtGui.QIcon("sudoku.jfif"))
 
         self.solve_thread = signal_emitter()
@@ -38,98 +41,27 @@ class Ui_Sudoku(QtWidgets.QMainWindow):
         self.centralwidget = QtWidgets.QWidget(Sudoku)
         self.centralwidget.setObjectName("centralwidget")
 
-        self.sub_grid = QtWidgets.QFrame(self.centralwidget)
-        self.sub_grid.setGeometry(QtCore.QRect(0, 0, 540, 540))
-        font = QtGui.QFont()
-        font.setPointSize(24)
-        self.sub_grid.setFont(font)
+        render_grid(self, self.centralwidget, 50, 0)
 
-        for row in range(9):
-            for col in range(9):
-                self.field[row][col] = QtWidgets.QLineEdit(self.sub_grid)
-                self.field[row][col].setGeometry(QtCore.QRect(60*col, 60*row, 60, 60))
-                font = QtGui.QFont()
-                font.setPointSize(28)
-                self.field[row][col].setFont(font)
-                self.field[row][col].setMaxLength(1)
-                self.field[row][col].setAlignment(QtCore.Qt.AlignCenter)
-                self.field[row][col].returnPressed.connect(self.validate_answers)
-                self.field[row][col].textEdited.connect(lambda text, r=row, c=col: self.validate_field(text, r, c))
+        render_footer(self, self.centralwidget, 50, 540)
         
-        for row in range(3,6):
-            for col in range(3):
-                self.field[row][col].setStyleSheet("background-color: rgb(225, 225, 225);")
+        render_menu(self, self.centralwidget, 0, 0)
 
-        for row in range(3):
-            for col in range(3,6):
-                self.field[row][col].setStyleSheet("background-color: rgb(225, 225, 225);")
-
-        for row in range(6,9):
-            for col in range(3,6):
-                self.field[row][col].setStyleSheet("background-color: rgb(225, 225, 225);")
-
-        for row in range(3,6):
-            for col in range(6,9):
-                self.field[row][col].setStyleSheet("background-color: rgb(225, 225, 225);") 
-
-        for row, column in self.empty_fields:
-            self.field[row][column].setStyleSheet(
-                    self.field[row][column].styleSheet() +
-                    '\n' + "color: rgb(0, 170, 255);")
-
-        self.info = QtWidgets.QFrame(self.centralwidget)
-        self.info.setGeometry(QtCore.QRect(0, 540, 540, 140))
-        self.info.setStyleSheet("background-color: rgb(170, 170, 255);")
-        self.info.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        self.info.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.info.setObjectName("info")
-
-        self.wrong_moves_label = QtWidgets.QLabel(self.info)
-        self.wrong_moves_label.setGeometry(QtCore.QRect(10, 30, 145, 28))
-        font = QtGui.QFont()
-        font.setPointSize(14)
-        self.wrong_moves_label.setFont(font)
-        self.wrong_moves_label.setObjectName("wrong_moves_label")
-
-        self.wrong_moves_count = QtWidgets.QLabel(self.info)
-        self.wrong_moves_count.setGeometry(QtCore.QRect(170, 30, 35, 28))
-        font = QtGui.QFont()
-        font.setPointSize(14)
-        self.wrong_moves_count.setFont(font)
-        self.wrong_moves_count.setObjectName("wrong_moves_count")
-
-        self.auto_solve = QtWidgets.QPushButton(self.info)
-        self.auto_solve.setGeometry(QtCore.QRect(290, 20, 238, 42))
-        font = QtGui.QFont()
-        font.setPointSize(12)
-        self.auto_solve.setFont(font)
-        self.auto_solve.setStyleSheet("background-color: rgb(209, 207, 255);\n")
-        self.auto_solve.setObjectName("auto_solve")
-        self.auto_solve.clicked.connect(self.show_hide_solution)
-
-        self.timer = QtWidgets.QLabel(self.info)
-        self.timer.setGeometry(QtCore.QRect(30, 90, 60, 28))
-        font = QtGui.QFont()
-        font.setPointSize(14)
-        self.timer.setFont(font)
-        self.timer.setObjectName("timer")
-
-        self.solve_animation = QtWidgets.QPushButton(self.info)
-        self.solve_animation.setGeometry(QtCore.QRect(290, 80, 238, 42))
-        font = QtGui.QFont()
-        font.setPointSize(12)
-        self.solve_animation.setFont(font)
-        self.solve_animation.setStyleSheet("background-color: rgb(209, 207, 255);")
-        self.solve_animation.setObjectName("solve_animation")
-        self.solve_animation.clicked.connect(self.solve_grid_visual)
         Sudoku.setCentralWidget(self.centralwidget)
 
         self.logger = Timer()
         self.logger.sec_signal.connect(self.timer.setText)
+        self.pause_run_timer.clicked.connect(self.logger.toggle_timer)
         self.logger.start()
 
-        self.retranslateUi(Sudoku)
+        self.auto_solve.clicked.connect(self.show_hide_solution)
+        self.solve_animation.clicked.connect(self.solve_grid_visual)
+        self.speed_slider.valueChanged['int'].connect(self.speed_value.setNum)
+        self.speed_slider.valueChanged['int'].connect(self.set_delay)
+        self.btn_toggle_menu.clicked.connect(lambda: self.open_menu() if not self.menu_opened else self.close_menu())
+
         QtCore.QMetaObject.connectSlotsByName(Sudoku)
+        self.retranslateUi(Sudoku)
         self.show_unsolved_grid()
 
     def retranslateUi(self, Sudoku):
@@ -137,9 +69,16 @@ class Ui_Sudoku(QtWidgets.QMainWindow):
         Sudoku.setWindowTitle(_translate("Sudoku", "Sudoku"))
         self.wrong_moves_label.setText(_translate("Sudoku", "Wrong Moves:"))
         self.wrong_moves_count.setText(_translate("Sudoku", "0"))
-        self.auto_solve.setText(_translate("Sudoku", "Show solution"))
         self.timer.setText(_translate("Sudoku", "00:00"))
-        self.solve_animation.setText(_translate("Sudoku", "Play solving animation"))
+        self.solve_animation.setText(_translate("Sudoku", "Run solving animation"))
+        self.auto_solve.setText(_translate("Sudoku", "Show Solution"))
+        self.pause_run_timer.setText(_translate("Sudoku", "Pause Timer"))
+        self.speed_label.setText(_translate("Sudoku", "Step delay (ms)"))
+        self.speed_value.setText(_translate("Sudoku", "0"))
+
+    def set_delay(self, delay):
+        if isinstance(delay, int):
+            self.delay_handler.delay = delay/100
 
     def validate_field(self, text, row, col):
         if not text.isdigit():
@@ -185,7 +124,6 @@ class Ui_Sudoku(QtWidgets.QMainWindow):
         self.solution_state = not self.solution_state
         self.logger.toggle_timer()
 
-
     def solve_grid_visual(self):
         for row, col in self.empty_fields:
             self.field[row][col].setStyleSheet(
@@ -204,7 +142,23 @@ class Ui_Sudoku(QtWidgets.QMainWindow):
     	self.solve_animation.setEnabled(True)
     	self.solution_state = 1
     	self.auto_solve.setText("Hide solution")
-    
+
+    def open_menu(self):
+        self.menu = QtCore.QPropertyAnimation(self.frame_left_menu, b"size")
+        self.menu.setDuration(125)
+        self.menu.setStartValue(QtCore.QSize(50, 631)) #width, height
+        self.menu.setEndValue(QtCore.QSize(240, 631))
+        self.menu.start()
+        self.menu_opened = 1
+
+    def close_menu(self):
+        self.menu = QtCore.QPropertyAnimation(self.frame_left_menu, b"size")
+        self.menu.setDuration(125)
+        self.menu.setStartValue(QtCore.QSize(240, 631)) #width, height
+        self.menu.setEndValue(QtCore.QSize(50, 631))
+        self.menu.start()
+        self.menu_opened = 0
+
 
 if __name__ == "__main__":
     import sys

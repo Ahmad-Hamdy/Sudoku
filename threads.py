@@ -2,6 +2,18 @@ from PyQt5 import QtCore
 from time import sleep
 from utils import find_empty_cell, valid_row, valid_column, valid_box, solve
 
+class delay_value():
+    def __init__(self, delay = 0.01):
+        self._delay = delay
+
+    @property
+    def delay(self):
+        return self._delay
+
+    @delay.setter
+    def delay(self, delay):
+        self._delay = delay    
+delay_handler = delay_value()
 
 class Timer(QtCore.QThread):
     sec_signal = QtCore.pyqtSignal(str)
@@ -28,24 +40,18 @@ class signal_emitter(QtCore.QObject):
     @QtCore.pyqtSlot(list, int, int, result=bool)
     def solve(self, grid, row, column):
         row, column = find_empty_cell(grid, row)
-
-        # this is the bae case for recursion
-        # if there are no more empty cells
         if (row, column) == (None,None):
             self.finished.emit()
             return True
 
-        # recursively try each number between 0-9 for the empty cell currently soolving
         for num in range(1, 10):
-
-            # validate if the number trying will satisfy the restirections of soduko
             if valid_row(grid[row], num
                 ) and valid_column(grid, column, num
                 ) and valid_box(grid, row, column, num):
                 grid[row][column] = num     
                 self.answer_signal.emit(row, column, str(num), """color: rgb(170, 170, 255);
                                         border: 1px solid black;""")
-                sleep(0.01)
+                sleep(delay_handler.delay)
 
                 if self.solve(grid, row, column):
                     return True
@@ -53,6 +59,8 @@ class signal_emitter(QtCore.QObject):
                 grid[row][column] = 0
                 self.answer_signal.emit(row, column, "0", """color: rgb(255, 0, 0);
                                         border: 2px solid rgb(255, 0, 0);""")
-                sleep(0.01)
+                sleep(delay_handler.delay)
         
         return False
+
+

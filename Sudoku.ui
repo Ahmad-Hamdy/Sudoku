@@ -6,20 +6,20 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>540</width>
-    <height>610</height>
+    <width>590</width>
+    <height>630</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>540</width>
-    <height>610</height>
+    <width>590</width>
+    <height>630</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>540</width>
-    <height>670</height>
+    <width>590</width>
+    <height>630</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -34,7 +34,7 @@
    <widget class="QFrame" name="sub_grid">
     <property name="geometry">
      <rect>
-      <x>0</x>
+      <x>50</x>
       <y>0</y>
       <width>180</width>
       <height>180</height>
@@ -295,7 +295,7 @@
    <widget class="QFrame" name="sub_grid_2">
     <property name="geometry">
      <rect>
-      <x>180</x>
+      <x>230</x>
       <y>0</y>
       <width>180</width>
       <height>180</height>
@@ -538,7 +538,7 @@
    <widget class="QFrame" name="sub_grid_3">
     <property name="geometry">
      <rect>
-      <x>360</x>
+      <x>410</x>
       <y>0</y>
       <width>180</width>
       <height>180</height>
@@ -778,7 +778,7 @@
    <widget class="QFrame" name="sub_grid_4">
     <property name="geometry">
      <rect>
-      <x>0</x>
+      <x>50</x>
       <y>180</y>
       <width>180</width>
       <height>180</height>
@@ -1021,7 +1021,7 @@
    <widget class="QFrame" name="sub_grid_5">
     <property name="geometry">
      <rect>
-      <x>180</x>
+      <x>230</x>
       <y>180</y>
       <width>180</width>
       <height>180</height>
@@ -1261,7 +1261,7 @@
    <widget class="QFrame" name="sub_grid_6">
     <property name="geometry">
      <rect>
-      <x>360</x>
+      <x>410</x>
       <y>180</y>
       <width>180</width>
       <height>180</height>
@@ -1504,7 +1504,7 @@
    <widget class="QFrame" name="sub_grid_7">
     <property name="geometry">
      <rect>
-      <x>0</x>
+      <x>50</x>
       <y>360</y>
       <width>180</width>
       <height>180</height>
@@ -1717,7 +1717,7 @@
    <widget class="QFrame" name="sub_grid_8">
     <property name="geometry">
      <rect>
-      <x>180</x>
+      <x>230</x>
       <y>360</y>
       <width>180</width>
       <height>180</height>
@@ -1933,7 +1933,7 @@
    <widget class="QFrame" name="sub_grid_9">
     <property name="geometry">
      <rect>
-      <x>360</x>
+      <x>410</x>
       <y>360</y>
       <width>180</width>
       <height>180</height>
@@ -2146,10 +2146,10 @@
    <widget class="QFrame" name="info">
     <property name="geometry">
      <rect>
-      <x>0</x>
+      <x>50</x>
       <y>540</y>
       <width>540</width>
-      <height>70</height>
+      <height>90</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -2165,7 +2165,7 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>20</y>
+       <y>30</y>
        <width>145</width>
        <height>28</height>
       </rect>
@@ -2183,7 +2183,7 @@
      <property name="geometry">
       <rect>
        <x>170</x>
-       <y>20</y>
+       <y>30</y>
        <width>35</width>
        <height>28</height>
       </rect>
@@ -2197,33 +2197,11 @@
       <string>0</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="auto_solve">
-     <property name="geometry">
-      <rect>
-       <x>240</x>
-       <y>14</y>
-       <width>125</width>
-       <height>40</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <pointsize>16</pointsize>
-      </font>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">background-color: rgb(209, 207, 255);
-selection-color: rgb(145, 144, 177);</string>
-     </property>
-     <property name="text">
-      <string>Solve</string>
-     </property>
-    </widget>
     <widget class="QLabel" name="timer">
      <property name="geometry">
       <rect>
        <x>440</x>
-       <y>20</y>
+       <y>30</y>
        <width>60</width>
        <height>28</height>
       </rect>
@@ -2238,8 +2216,459 @@ selection-color: rgb(145, 144, 177);</string>
      </property>
     </widget>
    </widget>
+   <widget class="QFrame" name="frame_left_menu">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>260</width>
+      <height>631</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>50</width>
+      <height>241</height>
+     </size>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>260</width>
+      <height>16777215</height>
+     </size>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::LeftToRight</enum>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(170, 170, 255);</string>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::NoFrame</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout_5">
+     <property name="spacing">
+      <number>1</number>
+     </property>
+     <property name="leftMargin">
+      <number>0</number>
+     </property>
+     <property name="topMargin">
+      <number>0</number>
+     </property>
+     <property name="rightMargin">
+      <number>0</number>
+     </property>
+     <property name="bottomMargin">
+      <number>0</number>
+     </property>
+     <item alignment="Qt::AlignTop">
+      <widget class="QFrame" name="frame_menus">
+       <property name="styleSheet">
+        <string notr="true"/>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::NoFrame</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Raised</enum>
+       </property>
+       <layout class="QVBoxLayout" name="layout_menus">
+        <property name="spacing">
+         <number>0</number>
+        </property>
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="QPushButton" name="btn_toggle_menu">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>50</width>
+            <height>50</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>50</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton {
+	
+	background-color: rgb(170, 170, 255);
+	background-image: url(icons/24x24/cil-menu.png);
+	background-position: center;
+	background-repeat: no-reperat;
+	border: none;
+}
+QPushButton:hover {
+	background-color: rgb(132, 132, 198);
+}
+QPushButton:pressed {	
+	background-color: rgb(132, 132, 198);
+}</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="solve_animation">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>60</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <family>Segoe UI</family>
+           </font>
+          </property>
+          <property name="layoutDirection">
+           <enum>Qt::LeftToRight</enum>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton {	
+	background-image: url(icons/24x24/cil-media-play.png);
+	background-position: left center;
+    background-repeat: no-repeat;
+	border: none;
+	border-left: 18px solid rgb(170, 170, 255);
+	border-right: 5px solid rgb(170, 170, 255);
+	background-color: rgb(170, 170, 255);
+	text-align: left;
+	padding-left: 45px;
+}
+QPushButton:hover {
+	background-color: rgb(124, 124, 186);
+	border-left: 18px solid rgb(124, 124, 186);
+}
+QPushButton:pressed {	
+	background-color: rgb(85, 170, 255);
+	border-left: 18px solid rgb(85, 170, 255);
+}</string>
+          </property>
+          <property name="text">
+           <string>Run solving animation</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="auto_solve">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>60</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <family>Segoe UI</family>
+           </font>
+          </property>
+          <property name="layoutDirection">
+           <enum>Qt::LeftToRight</enum>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton {	
+	background-image: url(icons/24x24/cil-check.png);
+	background-position: left center;
+    background-repeat: no-repeat;
+	border: none;
+	border-left: 18px solid rgb(170, 170, 255);
+	border-right: 5px solid rgb(170, 170, 255);
+	background-color: rgb(170, 170, 255);
+	text-align: left;
+	padding-left: 45px;
+}
+QPushButton:hover {
+	background-color: rgb(124, 124, 186);
+	border-left: 18px solid rgb(124, 124, 186);
+}
+QPushButton:pressed {	
+	background-color: rgb(85, 170, 255);
+	border-left: 18px solid rgb(85, 170, 255);
+}</string>
+          </property>
+          <property name="text">
+           <string>Show Solution</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="pause_run_timer">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>60</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <family>Segoe UI</family>
+           </font>
+          </property>
+          <property name="layoutDirection">
+           <enum>Qt::LeftToRight</enum>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton {	
+	background-image: url(icons/24x24/cil-watch);
+	background-position: left center;
+    background-repeat: no-repeat;
+	border: none;
+	border-left: 18px solid rgb(170, 170, 255);
+	border-right: 5px solid rgb(170, 170, 255);
+	background-color: rgb(170, 170, 255);
+	text-align: left;
+	padding-left: 45px;
+}
+QPushButton:hover {
+	background-color: rgb(124, 124, 186);
+	border-left: 18px solid rgb(124, 124, 186);
+}
+QPushButton:pressed {	
+	background-color: rgb(85, 170, 255);
+	border-left: 18px solid rgb(85, 170, 255);
+}</string>
+          </property>
+          <property name="text">
+           <string>Pause Timer</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QFrame" name="speed_control_header">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>60</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QFrame{
+background-image: url(icons/24x24/cil-speedometer.png);
+background-position: left center;
+background-repeat: no-repeat;
+border: none;
+border-left: 18px solid rgb(170, 170, 255);
+border-top: 1px solid black;
+background-color: rgb(170, 170, 255);
+text-align: left;
+}</string>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
+          <widget class="QLabel" name="speed_label">
+           <property name="geometry">
+            <rect>
+             <x>60</x>
+             <y>20</y>
+             <width>111</width>
+             <height>20</height>
+            </rect>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">border: none;
+background: none;
+margin: 0;</string>
+           </property>
+           <property name="text">
+            <string>Speed Control</string>
+           </property>
+          </widget>
+         </widget>
+        </item>
+        <item>
+         <widget class="QFrame" name="speed_control_frame">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>25</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QFrame{
+border: none;
+background-color: rgb(170, 170, 255);
+text-align: left;
+}</string>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
+          <widget class="QSlider" name="speed_slider">
+           <property name="geometry">
+            <rect>
+             <x>50</x>
+             <y>0</y>
+             <width>160</width>
+             <height>22</height>
+            </rect>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QSlider::groove:horizontal {
+border: 1px solid #bbb;
+background: white;
+height: 10px;
+border-radius: 4px;
+}
+
+QSlider::sub-page:horizontal {
+background: qlineargradient(x1: 0, y1: 0,    x2: 0, y2: 1,
+    stop: 0 #66e, stop: 1 #bbf);
+background: qlineargradient(x1: 0, y1: 0.2, x2: 1, y2: 1,
+    stop: 0 #bbf, stop: 1 #55f);
+border: 1px solid #777;
+height: 10px;
+border-radius: 4px;
+}
+
+QSlider::add-page:horizontal {
+background: #fff;
+border: 1px solid #777;
+height: 10px;
+border-radius: 4px;
+}
+
+QSlider::handle:horizontal {
+background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
+    stop:0 #eee, stop:1 #ccc);
+border: 1px solid #777;
+width: 13px;
+margin-top: -2px;
+margin-bottom: -2px;
+border-radius: 4px;
+}
+
+QSlider::handle:horizontal:hover {
+background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
+    stop:0 #fff, stop:1 #ddd);
+border: 1px solid #444;
+border-radius: 4px;
+}
+
+QSlider::sub-page:horizontal:disabled {
+background: #bbb;
+border-color: #999;
+}
+
+QSlider::add-page:horizontal:disabled {
+background: #eee;
+border-color: #999;
+}
+
+QSlider::handle:horizontal:disabled {
+background: #eee;
+border: 1px solid #aaa;
+border-radius: 4px;
+}</string>
+           </property>
+           <property name="maximum">
+            <number>100</number>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="tickPosition">
+            <enum>QSlider::TicksAbove</enum>
+           </property>
+           <property name="tickInterval">
+            <number>10</number>
+           </property>
+          </widget>
+          <widget class="QLabel" name="speed_value">
+           <property name="geometry">
+            <rect>
+             <x>230</x>
+             <y>2</y>
+             <width>21</width>
+             <height>16</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>0</string>
+           </property>
+          </widget>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+    </layout>
+   </widget>
   </widget>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>speed_slider</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>speed_value</receiver>
+   <slot>setNum(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>99</x>
+     <y>380</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>200</x>
+     <y>379</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>
