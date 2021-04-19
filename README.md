@@ -1,3 +1,5 @@
+# Sudoku
+
 Sudoku game implemented with 4 different puzzles
 and a solver algorithm to solve any sudoku puzzle 
 
