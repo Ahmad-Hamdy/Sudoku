@@ -1,17 +1,21 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from random import choice
 from threads import Timer, signal_emitter, delay_handler
-from patterns import *
+from patterns import (default_pattern, default_solution, wall_pattern, wall_solution,
+						corner_pattern, corner_solution, diagonal_pattern, diagonal_solution)
 from UI_components import render_grid, render_footer, render_menu
 
+
 empty_grid, grid = choice([
-						(default_pattern, default_solution),
-						(wall_pattern, default_solution),
-						(corner_pattern, default_solution),
-						(diagonal_pattern, default_solution)
-						])
+					(default_pattern, default_solution),
+					(wall_pattern, wall_solution),
+					(corner_pattern, corner_solution),
+					(diagonal_pattern, diagonal_solution)
+					])
 
 animation_grid = [ [x for x in row] for row in empty_grid]
+
+
 
 class Ui_Sudoku(QtWidgets.QMainWindow):
     def __init__(self):
@@ -29,7 +33,7 @@ class Ui_Sudoku(QtWidgets.QMainWindow):
         Sudoku.resize(590, 630)
         Sudoku.setMinimumSize(QtCore.QSize(590, 630))
         Sudoku.setMaximumSize(QtCore.QSize(590, 630))
-        Sudoku.setWindowIcon(QtGui.QIcon("sudoku.jfif"))
+        Sudoku.setWindowIcon(QtGui.QIcon("icons/sudoku.jfif"))
 
         self.solve_thread = signal_emitter()
         self.thread = QtCore.QThread(self)
@@ -56,6 +60,7 @@ class Ui_Sudoku(QtWidgets.QMainWindow):
 
         self.auto_solve.clicked.connect(self.show_hide_solution)
         self.solve_animation.clicked.connect(self.solve_grid_visual)
+        self.change_grid.clicked.connect(self.get_random_grid)
         self.speed_slider.valueChanged['int'].connect(self.speed_value.setNum)
         self.speed_slider.valueChanged['int'].connect(self.set_delay)
         self.btn_toggle_menu.clicked.connect(lambda: self.open_menu() if not self.menu_opened else self.close_menu())
@@ -72,13 +77,14 @@ class Ui_Sudoku(QtWidgets.QMainWindow):
         self.timer.setText(_translate("Sudoku", "00:00"))
         self.solve_animation.setText(_translate("Sudoku", "Run solving animation"))
         self.auto_solve.setText(_translate("Sudoku", "Show Solution"))
+        self.change_grid.setText(_translate("Sudoku", "Change Grid"))
         self.pause_run_timer.setText(_translate("Sudoku", "Pause Timer"))
         self.speed_label.setText(_translate("Sudoku", "Step delay (ms)"))
-        self.speed_value.setText(_translate("Sudoku", "0"))
+        self.speed_value.setText(_translate("Sudoku", "10"))
 
     def set_delay(self, delay):
         if isinstance(delay, int):
-            self.delay_handler.delay = delay/100
+            self.delay_handler.delay = delay/1000
 
     def validate_field(self, text, row, col):
         if not text.isdigit():
@@ -110,8 +116,15 @@ class Ui_Sudoku(QtWidgets.QMainWindow):
                 if empty_grid[row][col]:
                     self.field[row][col].setText(str(empty_grid[row][col]))
                     self.field[row][col].setReadOnly(True)
+                    self.field[row][col].setStyleSheet(
+		                self.field[row][col].styleSheet() +
+		                '\n' + "color: rgb(0, 0, 0);")
                 else:
-                	self.field[row][col].setText("")
+                    self.field[row][col].setText("")
+                    self.field[row][col].setReadOnly(False)
+                    self.field[row][col].setStyleSheet(
+		                self.field[row][col].styleSheet() +
+		                '\n' + "color: rgb(0, 170, 255);")
 
     def show_hide_solution(self):
         if self.solution_state:
@@ -146,7 +159,7 @@ class Ui_Sudoku(QtWidgets.QMainWindow):
     def open_menu(self):
         self.menu = QtCore.QPropertyAnimation(self.frame_left_menu, b"size")
         self.menu.setDuration(125)
-        self.menu.setStartValue(QtCore.QSize(50, 631)) #width, height
+        self.menu.setStartValue(QtCore.QSize(50, 631))
         self.menu.setEndValue(QtCore.QSize(240, 631))
         self.menu.start()
         self.menu_opened = 1
@@ -154,11 +167,23 @@ class Ui_Sudoku(QtWidgets.QMainWindow):
     def close_menu(self):
         self.menu = QtCore.QPropertyAnimation(self.frame_left_menu, b"size")
         self.menu.setDuration(125)
-        self.menu.setStartValue(QtCore.QSize(240, 631)) #width, height
+        self.menu.setStartValue(QtCore.QSize(240, 631))
         self.menu.setEndValue(QtCore.QSize(50, 631))
         self.menu.start()
         self.menu_opened = 0
 
+    def get_random_grid(self):
+        global empty_grid, grid, animation_grid
+        empty_grid, grid = choice([
+					(default_pattern, default_solution),
+					(wall_pattern, wall_solution),
+					(corner_pattern, corner_solution),
+					(diagonal_pattern, diagonal_solution)
+					])
+
+        animation_grid = [ [x for x in row] for row in empty_grid]
+        self.empty_fields = [ (row, column) for row in range(9) for column in range(9) if not empty_grid[row][column]]
+        self.show_unsolved_grid()
 
 if __name__ == "__main__":
     import sys
@@ -170,11 +195,3 @@ if __name__ == "__main__":
     code = app.exec_()
     ui.thread.terminate()
     sys.exit(code)
-
-
-#########STUFF TO DO###############
-# figure out the problem with closeEvent
-# add more grids
-# add stting menu
-# add start/pause timer
-# solve animation speed contoller 

@@ -1,3 +1,7 @@
+# This file contains all the utility funtions 
+# used by the backtracking algorithm
+
+
 def find_empty_cell(grid, r):
     """finds the next empt cell
 

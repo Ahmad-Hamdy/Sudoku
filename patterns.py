@@ -1,3 +1,7 @@
+# This file contains all the patterns
+# used by the game with their solutions
+
+
 default_pattern = [  [3, 0, 6, 5, 0, 8, 4, 0, 0], 
                      [5, 2, 0, 0, 0, 0, 0, 0, 0], 
                      [0, 8, 7, 0, 0, 0, 0, 3, 1], 

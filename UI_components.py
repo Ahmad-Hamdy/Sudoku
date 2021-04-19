@@ -1,3 +1,7 @@
+# This file contains classes 
+# used by UI_Sudoku class 
+# for rendering the main ui components 
+
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 def render_grid(window, parent, x, y):
@@ -184,6 +188,40 @@ def render_menu(window, parent, x, y):
 		"}")
     window.auto_solve.setObjectName("auto_solve")
     window.layout_menus.addWidget(window.auto_solve)
+
+    window.change_grid = QtWidgets.QPushButton(window.frame_menus)
+    sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Fixed)
+    sizePolicy.setHorizontalStretch(0)
+    sizePolicy.setVerticalStretch(0)
+    sizePolicy.setHeightForWidth(window.change_grid.sizePolicy().hasHeightForWidth())
+    window.change_grid.setSizePolicy(sizePolicy)
+    window.change_grid.setMinimumSize(QtCore.QSize(0, 60))
+    font = QtGui.QFont()
+    font.setFamily("Segoe UI")
+    window.change_grid.setFont(font)
+    window.change_grid.setLayoutDirection(QtCore.Qt.LeftToRight)
+    window.change_grid.setStyleSheet("QPushButton {    \n"
+        "    background-image: url(icons/24x24/cil-dialpad.png);\n"
+        "    background-position: left center;\n"
+        "    background-repeat: no-repeat;\n"
+        "    border: none;\n"
+        "    border-left: 18px solid rgb(170, 170, 255);\n"
+        "    border-right: 5px solid rgb(170, 170, 255);\n"
+        "    background-color: rgb(170, 170, 255);\n"
+        "    text-align: left;\n"
+        "    padding-left: 45px;\n"
+        "}\n"
+        "QPushButton:hover {\n"
+        "    background-color: rgb(124, 124, 186);\n"
+        "    border-left: 18px solid rgb(124, 124, 186);\n"
+        "}\n"
+        "QPushButton:pressed {    \n"
+        "    background-color: rgb(85, 170, 255);\n"
+        "    border-left: 18px solid rgb(85, 170, 255);\n"
+        "}")
+    window.change_grid.setObjectName("change_grid")
+    window.layout_menus.addWidget(window.change_grid)
+
     window.pause_run_timer = QtWidgets.QPushButton(window.frame_menus)
     sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Fixed)
     sizePolicy.setHorizontalStretch(0)
@@ -216,6 +254,8 @@ def render_menu(window, parent, x, y):
 		"}")
     window.pause_run_timer.setObjectName("pause_run_timer")
     window.layout_menus.addWidget(window.pause_run_timer)
+
+    
     window.speed_control_header = QtWidgets.QFrame(window.frame_menus)
     window.speed_control_header.setMinimumSize(QtCore.QSize(0, 60))
     window.speed_control_header.setStyleSheet("QFrame{\n"
@@ -310,7 +350,9 @@ def render_menu(window, parent, x, y):
     window.speed_slider.setOrientation(QtCore.Qt.Horizontal)
     window.speed_slider.setTickPosition(QtWidgets.QSlider.TicksAbove)
     window.speed_slider.setTickInterval(10)
+    window.speed_slider.setProperty("value", 10)
     window.speed_slider.setObjectName("speed_slider")
+
     window.speed_value = QtWidgets.QLabel(window.speed_control_frame)
     window.speed_value.setGeometry(QtCore.QRect(215, 2, 21, 16))
     window.speed_value.setObjectName("speed_value")

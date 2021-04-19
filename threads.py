@@ -1,3 +1,6 @@
+# This file contains classes
+# Responible for handling threads  
+
 from PyQt5 import QtCore
 from time import sleep
 from utils import find_empty_cell, valid_row, valid_column, valid_box, solve
@@ -37,6 +40,8 @@ class signal_emitter(QtCore.QObject):
     answer_signal = QtCore.pyqtSignal(int, int, str, str)
     finished = QtCore.pyqtSignal()
 
+    # the funtion responsible for solving the Sudoku grid 
+    # using backtracking algorithm
     @QtCore.pyqtSlot(list, int, int, result=bool)
     def solve(self, grid, row, column):
         row, column = find_empty_cell(grid, row)
